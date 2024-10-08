@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-5">
     <v-data-iterator
       :items="items"
       :items-per-page.sync="itemsPerPage"
@@ -18,28 +18,20 @@
             solo-inverted
             hide-details
             prepend-inner-icon="mdi-magnify"
-            label="Search"
+            label="Input to Search HashTag"
           ></v-text-field>
-          <template v-if="$vuetify.breakpoint.mdAndUp">
+          <template>
             <v-spacer></v-spacer>
             <v-select
-              v-model="sortBy"
+              v-model="search"
               flat
               solo-inverted
               hide-details
-              :items="keys"
+              :items="tags"
               prepend-inner-icon="mdi-magnify"
-              label="Sort by"
+              label="Search by HashTag"
+              clearable
             ></v-select>
-            <v-spacer></v-spacer>
-            <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
-                <v-icon>mdi-arrow-up</v-icon>
-              </v-btn>
-              <v-btn large depressed color="blue" :value="true">
-                <v-icon>mdi-arrow-down</v-icon>
-              </v-btn>
-            </v-btn-toggle>
           </template>
         </v-toolbar>
       </template>
@@ -48,35 +40,25 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item.name"
+            :key="item.tags"
             cols="12"
             sm="6"
             md="4"
             lg="3"
           >
-            <v-card>
-              <v-card-title class="subheading font-weight-bold">
-                {{ item.name }}
-              </v-card-title>
-
-              <v-divider></v-divider>
-
-              <v-list dense>
-                <v-list-item v-for="(key, index) in filteredKeys" :key="index">
-                  <v-list-item-content
-                    :class="{ 'blue--text': sortBy === key }"
-                  >
-                    {{ key }}:
-                  </v-list-item-content>
-                  <v-list-item-content
-                    class="align-end"
-                    :class="{ 'blue--text': sortBy === key }"
-                  >
-                    {{ item[key.toLowerCase()] }}
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
+            <v-lazy
+              ><div>
+                <v-chip
+                  v-for="(tag, index) in item.tags"
+                  :key="index"
+                  class="mr-2"
+                  color="blue"
+                  dark
+                >
+                  {{ tag }}
+                </v-chip>
+                <v-img :src="item.url" class="grey lighten-2"></v-img></div
+            ></v-lazy>
           </v-col>
         </v-row>
       </template>
@@ -146,6 +128,20 @@ export default {
       page: 1,
       itemsPerPage: 4,
       sortBy: "name",
+      tags: [
+        "nature",
+        "city",
+        "beach",
+        "forest",
+        "night",
+        "sunset",
+        "keyword_a",
+        "keyword_b",
+        "keyword_c",
+        "keyword_d",
+        "keyword_e",
+      ], // คำสำคัญทั้งหมด
+
       keys: [
         "Name",
         "Calories",
@@ -158,105 +154,97 @@ export default {
       ],
       items: [
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
+          id: 1,
+          url: "https://placehold.co/300x300",
+          tags: ["keyword_a", "keyword_b"],
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%",
+          id: 2,
+          url: "https://placehold.co/400x400",
+          tags: ["keyword_b", "keyword_c"],
         },
         {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%",
+          id: 3,
+          url: "https://placehold.co/300x400",
+          tags: ["keyword_a", "keyword_c"],
         },
         {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%",
+          id: 4,
+          url: "https://placehold.co/200x200",
+          tags: ["keyword_c", "keyword_e"],
         },
         {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%",
+          id: 5,
+          url: "https://placehold.co/250x350",
+          tags: ["keyword_b", "keyword_c"],
         },
         {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%",
+          id: 6,
+          url: "https://placehold.co/350x300",
+          tags: ["keyword_c", "keyword_d"],
         },
         {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
+          id: 7,
+          url: "https://placehold.co/300x500",
+          tags: ["keyword_e", "keyword_d"],
         },
         {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%",
+          id: 8,
+          url: "https://placehold.co/200x300",
+          tags: ["keyword_a", "keyword_b"],
         },
         {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%",
+          id: 9,
+          url: "https://placehold.co/250x250",
+          tags: ["keyword_c", "keyword_e"],
         },
         {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%",
+          id: 10,
+          url: "https://placehold.co/300x300",
+          tags: ["nature", "forest"],
         },
+        {
+          id: 11,
+          url: "https://placehold.co/300x300",
+          tags: ["nature", "forest"],
+        },
+        {
+          id: 12,
+          url: "https://placehold.co/300x400",
+          tags: ["city", "night"],
+        },
+        {
+          id: 13,
+          url: "https://placehold.co/400x300",
+          tags: ["beach", "sunset"],
+        },
+        {
+          id: 14,
+          url: "https://placehold.co/400x400",
+          tags: ["nature", "sunset"],
+        },
+        {
+          id: 15,
+          url: "https://placehold.co/300x300",
+          tags: ["city", "night"],
+        },
+        {
+          id: 16,
+          url: "https://placehold.co/300x400",
+          tags: ["forest", "night"],
+        },
+        {
+          id: 17,
+          url: "https://placehold.co/400x300",
+          tags: ["beach", "sunset"],
+        },
+        {
+          id: 18,
+          url: "https://placehold.co/400x400",
+          tags: ["nature", "sunset"],
+        },
+
+        // สามารถเพิ่มรูปภาพได้อีกตามต้องการ
       ],
     };
   },
@@ -265,7 +253,7 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
     filteredKeys() {
-      return this.keys.filter((key) => key !== "Name");
+      return this.keys.filter((key) => key !== "tags");
     },
   },
   methods: {
