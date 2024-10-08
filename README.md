@@ -1,4 +1,4 @@
-# my-stock-workshop
+# fullstack-test
 
 ## Project setup
 ```

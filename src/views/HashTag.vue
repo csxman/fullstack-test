@@ -1,5 +1,13 @@
 <template>
   <v-container fluid class="pa-5">
+    <v-row no-gutters class="pb-5">
+      <v-col>
+        <v-btn outlined color="primary" @click="$router.push(`/lazyload`)"
+          >Lazy Load Page</v-btn
+        >
+      </v-col>
+    </v-row>
+
     <v-data-iterator
       :items="items"
       :items-per-page.sync="itemsPerPage"
@@ -46,8 +54,8 @@
             md="4"
             lg="3"
           >
-            <v-lazy
-              ><div>
+            <v-lazy>
+              <div>
                 <v-chip
                   v-for="(tag, index) in item.tags"
                   :key="index"
@@ -57,8 +65,9 @@
                 >
                   {{ tag }}
                 </v-chip>
-                <v-img :src="item.url" class="grey lighten-2"></v-img></div
-            ></v-lazy>
+                <v-img :src="item.url" class="grey lighten-2"></v-img>
+              </div>
+            </v-lazy>
           </v-col>
         </v-row>
       </template>
@@ -127,7 +136,7 @@ export default {
       sortDesc: false,
       page: 1,
       itemsPerPage: 4,
-      sortBy: "name",
+      sortBy: "id",
       tags: [
         "nature",
         "city",
@@ -141,17 +150,6 @@ export default {
         "keyword_d",
         "keyword_e",
       ], // คำสำคัญทั้งหมด
-
-      keys: [
-        "Name",
-        "Calories",
-        "Fat",
-        "Carbs",
-        "Protein",
-        "Sodium",
-        "Calcium",
-        "Iron",
-      ],
       items: [
         {
           id: 1,

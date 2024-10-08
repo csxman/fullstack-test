@@ -1,5 +1,12 @@
 <template>
   <v-container class="py-3">
+    <v-row no-gutters class="pb-5">
+      <v-col>
+        <v-btn outlined color="primary" @click="$router.push(`/hashtag`)"
+          >HashTag Page</v-btn
+        >
+      </v-col>
+    </v-row>
     <div class="display-2">Endless scrolling with v-lazy</div>
     <h5>
       <span v-text="visiblePosts"></span> of
