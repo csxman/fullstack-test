@@ -56,16 +56,20 @@
           >
             <v-lazy>
               <div>
-                <v-chip
-                  v-for="(tag, index) in item.tags"
-                  :key="index"
-                  class="mr-2"
-                  color="blue"
-                  dark
-                >
-                  {{ tag }}
-                </v-chip>
-                <v-img :src="item.url" class="grey lighten-2"></v-img>
+                <v-img :src="item.url" class="grey lighten-2">
+                  <div justify="end" align="center">
+                    <p>Hashtag :</p>
+                    <v-chip
+                      v-for="(tag, index) in item.tags"
+                      :key="index"
+                      class="mr-2"
+                      color="blue"
+                      dark
+                    >
+                      {{ tag }}
+                    </v-chip>
+                  </div>
+                </v-img>
               </div>
             </v-lazy>
           </v-col>
